@@ -43,7 +43,7 @@ const Page = () => {
                 <Button onclick={handleOpen} >{showAddFriend ? "Close" : "Add Friend"}</Button>
             </div>
             {selectedFriend && <div>
-                <SideForm selectedFriend={selectedFriend} onSubmit={handleSideForm} />
+                <SideForm key={selectedFriend.id} selectedFriend={selectedFriend} onSubmit={handleSideForm} />
             </div>}
         </div>
     )
