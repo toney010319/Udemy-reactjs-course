@@ -1,16 +1,16 @@
 /* eslint-disable react/prop-types */
 
 import Logo from "./Logo"
-import Search from "./Search"
 
 
 
-const Navbar = ({ children }) => {
+
+const Navbar = ({ children, }) => {
 
     return (
         <nav className="nav-bar">
             <Logo />
-            <Search />
+
             {children}
         </nav>
     )
