@@ -11,24 +11,19 @@ import WatchedMoviesList from "./components/WatchedMoviesList";
 import Loader from "./components/Loader";
 import Error from "./components/Error";
 import Search from "./components/Search";
-
-import MovieDetails from "./components/MovieDetails";
+import SelectedMovie from "./components/SelectedMovie";
 
 const KEY = '7857c958'
 
 export default function App() {
 
   const [movies, setMovies] = useState([]);
-  // const [watched, setWatched] = useState([]);
+  const [watched, setWatched] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(null)
-  const [watched, setWatched] = useState(() => {
-    const storedValue = localStorage.getItem("watched")
-    return JSON.parse(storedValue)
-  }
-  );
+
 
   const handleSelectedId = (id) => {
     setSelectedId((selectedId) => id === selectedId ? null : id)
@@ -73,19 +68,6 @@ export default function App() {
     }
   }, [query])
 
-  function handleAddWatched(movie) {
-    setWatched((watched) => [...watched, movie]);
-
-    // localStorage.setItem("watched", JSON.stringify([...watched, movie]));
-  }
-  function handleDeleteWatched(id) {
-    setWatched((watched) => watched.filter((movie) => movie.imdbID !== id));
-  }
-
-  useEffect(() => {
-    localStorage.setItem("watched", JSON.stringify(watched));
-
-  }, [watched])
 
 
   return (
@@ -100,16 +82,16 @@ export default function App() {
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
           {isLoading && <Loader />}
-          {!isLoading && !error && <MovieList movies={movies} watched={watched} onSelectMovie={handleSelectedId} />}
+          {!isLoading && !error && <MovieList movies={movies} onSelectMovie={handleSelectedId} />}
           {error && <Error message={error} />}
         </Box>
 
         <Box>
           {
-            selectedId ? (<MovieDetails selectedId={selectedId} watched={watched} onCloseMovie={handleCloseMovie} onAddWatched={handleAddWatched} />) :
+            selectedId ? (<SelectedMovie selectedId={selectedId} onCloseMovie={handleCloseMovie} />) :
               (<>
                 <WatchedSummary watched={watched} />
-                <WatchedMoviesList watched={watched} onDeleteWatched={handleDeleteWatched} />
+                <WatchedMoviesList watched={watched} />
               </>)
           }
         </Box>
